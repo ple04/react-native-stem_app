@@ -28,10 +28,11 @@ const FeedStackNav = createStackNavigator({
     screen: FeedScreen,
     navigationOptions: ({ navigation }) => ({
       headerTitle: (
-        <Text>Stem</Text>
+        <Text style={{ color: 'white', fontSize:30}}>Stem</Text>
       ),
+      
       headerStyle: {
-        backgroundColor: '#fff',
+        backgroundColor: '#3CC581',
         borderBottomWidth: 0,
       },
     })
@@ -44,10 +45,10 @@ const VideoStackNav = createStackNavigator({
     screen: VideoScreen,
     navigationOptions: ({ navigation }) => ({
       headerTitle: (
-        <Text>Stem</Text>
+        <Text style={{ color: 'white', fontSize:30}}>Stem</Text>
       ),
       headerStyle: {
-        backgroundColor: '#fff',
+        backgroundColor: '#3CC581',
         borderBottomWidth: 0,
       },
     })
@@ -60,10 +61,10 @@ const ProfileStackNav = createStackNavigator({
     screen: ProfileScreen,
     navigationOptions: ({ navigation }) => ({
       headerTitle: (
-        <Text>Stem</Text>
+        <Text style={{ color: 'white', fontSize:30}}>Stem</Text>
       ),
       headerStyle: {
-        backgroundColor: '#fff',
+        backgroundColor: '#3CC581',
         borderBottomWidth: 0,
       },
     })
@@ -77,13 +78,13 @@ const Nav = createAppContainer(createBottomTabNavigator({
     navigationOptions: {
       tabBarLabel: 'Feed',
       tabBarIcon:
-        <Icon name="md-home" color="#637182" size={30} />,
+      ({tintColor}) => <Icon name="md-home" color={tintColor} size={30} />,
       tabBarOptions: {
         style: {
           height: 50,
         },
         labelStyle: { fontSize: 10 },
-
+        activeTintColor:'#3CC581'
       }
     },
   },
@@ -91,15 +92,15 @@ const Nav = createAppContainer(createBottomTabNavigator({
   Video: {
     screen: VideoStackNav,
     navigationOptions: {
-      tabBarLabel: 'Capture',
+      tabBarLabel: 'Feed',
       tabBarIcon:
-        <Icon name="ios-videocam" color="#637182" size={30} />,
+      ({tintColor}) => <Icon name="md-videocam" color={tintColor} size={30} />,
       tabBarOptions: {
         style: {
           height: 50,
         },
         labelStyle: { fontSize: 10 },
-
+        activeTintColor:'#3CC581'
       }
     },
   },
@@ -107,15 +108,15 @@ const Nav = createAppContainer(createBottomTabNavigator({
   Profile: {
     screen: ProfileStackNav,
     navigationOptions: {
-      tabBarLabel: 'Profile',
+      tabBarLabel: 'Feed',
       tabBarIcon:
-        <Icon name="md-contact" color="#637182" size={30} />,
+      ({tintColor}) => <Icon name="md-contact" color={tintColor} size={30} />,
       tabBarOptions: {
         style: {
           height: 50,
         },
         labelStyle: { fontSize: 10 },
-
+        activeTintColor:'#3CC581'
       }
     },
   },
