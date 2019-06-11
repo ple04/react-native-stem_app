@@ -7,7 +7,7 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View, Image } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator, createAppContainer } from "react-navigation";
 import FeedScreen from './screens/feed';
 import ProfileScreen from './screens/profile';
@@ -28,7 +28,10 @@ const FeedStackNav = createStackNavigator({
     screen: FeedScreen,
     navigationOptions: ({ navigation }) => ({
       headerTitle: (
-        <Text style={{ color: 'white', fontSize:30}}>Stem</Text>
+        <Image
+        style={styles.stemlogo}
+          source={require('./util/images/stem_logo.png')}
+        />
       ),
       
       headerStyle: {
@@ -45,7 +48,10 @@ const VideoStackNav = createStackNavigator({
     screen: VideoScreen,
     navigationOptions: ({ navigation }) => ({
       headerTitle: (
-        <Text style={{ color: 'white', fontSize:30}}>Stem</Text>
+        <Image
+        style={styles.stemlogo}
+          source={require('./util/images/stem_logo.png')}
+        />
       ),
       headerStyle: {
         backgroundColor: '#3CC581',
@@ -61,7 +67,10 @@ const ProfileStackNav = createStackNavigator({
     screen: ProfileScreen,
     navigationOptions: ({ navigation }) => ({
       headerTitle: (
-        <Text style={{ color: 'white', fontSize:30}}>Stem</Text>
+        <Image
+        style={styles.stemlogo}
+          source={require('./util/images/stem_logo.png')}
+        />
       ),
       headerStyle: {
         backgroundColor: '#3CC581',
@@ -121,3 +130,13 @@ const Nav = createAppContainer(createBottomTabNavigator({
     },
   },
 }));
+
+const styles = StyleSheet.create({
+  stemlogo: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    bottom: 5,
+    resizeMode: 'contain',
+  },
+});
