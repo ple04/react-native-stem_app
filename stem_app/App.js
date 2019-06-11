@@ -83,7 +83,7 @@ const ProfileStackNav = createStackNavigator({
 
 const Nav = createAppContainer(createBottomTabNavigator({
   Feed: {
-    screen: FeedStackNav,
+    screen: ProfileStackNav,
     navigationOptions: {
       tabBarLabel: 'Feed',
       tabBarIcon:
