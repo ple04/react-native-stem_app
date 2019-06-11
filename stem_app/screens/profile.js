@@ -7,15 +7,8 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, ScrollView } from 'react-native';
+import { Platform, StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-ionicons';
-
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
 
 type Props = {};
 export default class ProfileScreen extends Component<Props> {
@@ -31,20 +24,22 @@ export default class ProfileScreen extends Component<Props> {
           borderBottomColor: "#E2E5E4",
         }}>
         <View style={{marginLeft:115, width: 250, borderRadius:3, borderWidth: 1, borderColor:"#DBDBDB" }}>
+        <TouchableOpacity>
         <Text style={{alignSelf:'center', margin: 5}}>Edit Profile</Text>
+        </TouchableOpacity>
         </View>
           <View>
             <View style={{ flexDirection:'row', alignItems:'center', top: -30, marginLeft: 20, }}>
               <Icon name="md-contact" color='grey' size={100} />
               <View>
-              <Text style={{marginLeft: 15, marginTop: 10}}>Username</Text>
+              <Text style={{marginLeft: 15, marginTop: 10}}>Addie </Text>
               <Text style={{marginLeft: 15}}>"Put your saying in this box"</Text>
               </View>
             </View>
             <View style={{ flexDirection:'row', alignItems:'center', top: -30, marginLeft: 32 }}>
-                <Text style={{fontWeight:'800', color: "#C5C7C6"}}>Followers</Text>
-                <Text style={{fontWeight:'800', marginLeft:55, color: "#C5C7C6"}}>Following</Text>
-                <Text style={{fontWeight:'800', marginLeft:55, color: "#C5C7C6"}}>Captures</Text>
+                <Text style={{fontWeight:'600', fontSize: 15, color: "#C5C7C6"}}>Followers</Text>
+                <Text style={{fontWeight:'600', fontSize: 15, marginLeft:55, color: "#C5C7C6"}}>Following</Text>
+                <Text style={{fontWeight:'600', fontSize: 15, marginLeft:55, color: "#C5C7C6"}}>Captures</Text>
               </View>
               <View style={{ flexDirection:'row', alignItems:'center', top: -25, marginLeft: 35, }}>
                 <Text style={{fontWeight:'200', marginLeft:15}}>1231</Text>
@@ -52,26 +47,6 @@ export default class ProfileScreen extends Component<Props> {
                 <Text style={{fontWeight:'200', marginLeft:95}}>125</Text>
               </View>
           </View>
-        </View>
-        <View style={{ flex: 1, flexDirection: 'row', height: 500, width: '100%' }}>
-        <View style={{width: 125, height: 123, backgroundColor: 'powderblue'}} />
-        <View style={{marginLeft: 2, width: 123, height: 123, backgroundColor: 'skyblue'}} />
-        <View style={{marginLeft: 2, width: 123, height: 123, backgroundColor: 'steelblue'}} />
-        </View>
-        <View style={{flexDirection: 'row', width: '100%', bottom: 375 }}>
-        <View style={{width: 125, height: 123, backgroundColor: 'powderblue'}} />
-        <View style={{marginLeft: 2, width: 123, height: 123, backgroundColor: 'skyblue'}} />
-        <View style={{marginLeft: 2, width: 123, height: 123, backgroundColor: 'steelblue'}} />
-        </View>
-        <View style={{flexDirection: 'row', width: '100%', bottom: 373 }}>
-        <View style={{width: 125, height: 123, backgroundColor: 'powderblue'}} />
-        <View style={{marginLeft: 2, width: 123, height: 123, backgroundColor: 'skyblue'}} />
-        <View style={{marginLeft: 2, width: 123, height: 123, backgroundColor: 'steelblue'}} />
-        </View>
-        <View style={{flexDirection: 'row', width: '100%', bottom: 371 }}>
-        <View style={{width: 125, height: 123, backgroundColor: 'powderblue'}} />
-        <View style={{marginLeft: 2, width: 123, height: 123, backgroundColor: 'skyblue'}} />
-        <View style={{marginLeft: 2, width: 123, height: 123, backgroundColor: 'steelblue'}} />
         </View>
       </ScrollView>
     );

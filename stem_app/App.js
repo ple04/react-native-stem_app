@@ -83,11 +83,11 @@ const ProfileStackNav = createStackNavigator({
 
 const Nav = createAppContainer(createBottomTabNavigator({
   Feed: {
-    screen: ProfileStackNav,
+    screen: FeedStackNav,
     navigationOptions: {
-      tabBarLabel: 'Feed',
+      tabBarLabel: ' ',
       tabBarIcon:
-      ({tintColor}) => <Icon name="md-home" color={tintColor} size={30} />,
+      ({tintColor}) => <Icon name="ios-images" style={{marginTop: 9}} color={tintColor} size={30} />,
       tabBarOptions: {
         style: {
           height: 50,
@@ -101,9 +101,9 @@ const Nav = createAppContainer(createBottomTabNavigator({
   Video: {
     screen: VideoStackNav,
     navigationOptions: {
-      tabBarLabel: 'Feed',
+      tabBarLabel: ' ',
       tabBarIcon:
-      ({tintColor}) => <Icon name="md-videocam" color={tintColor} size={30} />,
+      ({tintColor}) => <Icon name="md-videocam" style={{marginTop: 9}} color={tintColor} size={30} />,
       tabBarOptions: {
         style: {
           height: 50,
@@ -117,9 +117,9 @@ const Nav = createAppContainer(createBottomTabNavigator({
   Profile: {
     screen: ProfileStackNav,
     navigationOptions: {
-      tabBarLabel: 'Feed',
+      tabBarLabel: ' ',
       tabBarIcon:
-      ({tintColor}) => <Icon name="md-contact" color={tintColor} size={30} />,
+      ({tintColor}) => <Icon name="md-contact" style={{marginTop: 9}} color={tintColor} size={30} />,
       tabBarOptions: {
         style: {
           height: 50,
