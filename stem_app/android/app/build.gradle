@@ -140,7 +140,6 @@ android {
 dependencies {
     implementation project(':react-native-splash-screen')
     implementation project(':react-native-camera-kit')
-    implementation project(':react-native-camera')
     implementation project(':react-native-video')
     implementation project(':react-native-gesture-handler')
     implementation fileTree(dir: "libs", include: ["*.jar"])
