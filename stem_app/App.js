@@ -13,9 +13,15 @@ import FeedScreen from './screens/feed';
 import ProfileScreen from './screens/profile';
 import VideoScreen from './screens/video';
 import Icon from 'react-native-ionicons';
+import SplashScreen from 'react-native-splash-screen';
 
 type Props = {};
 export default class App extends Component<Props> {
+
+  componentDidMount() {
+    SplashScreen.hide()
+  }
+
   render() {
     return (
       <Nav />
@@ -30,7 +36,7 @@ const FeedStackNav = createStackNavigator({
       headerTitle: (
         <Image
         style={styles.stemlogo}
-          source={require('./util/images/stem_logo.png')}
+          source={require('./images/stem_logo.png')}
         />
       ),
       
@@ -50,7 +56,7 @@ const VideoStackNav = createStackNavigator({
       headerTitle: (
         <Image
         style={styles.stemlogo}
-          source={require('./util/images/stem_logo.png')}
+          source={require('./images/stem_logo.png')}
         />
       ),
       headerStyle: {
@@ -69,7 +75,7 @@ const ProfileStackNav = createStackNavigator({
       headerTitle: (
         <Image
         style={styles.stemlogo}
-          source={require('./util/images/stem_logo.png')}
+          source={require('./images/stem_logo.png')}
         />
       ),
       headerStyle: {

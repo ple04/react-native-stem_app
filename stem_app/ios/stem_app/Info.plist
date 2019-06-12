@@ -53,6 +53,16 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Used to Record Video Audio</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Used to Capture Video</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Used to store Video</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Used to store Video</string>
+	<key>LSApplicationCategoryType</key>
+	<string/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Ionicons.ttf</string>
