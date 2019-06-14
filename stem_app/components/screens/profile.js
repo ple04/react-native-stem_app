@@ -16,22 +16,19 @@ export default class ProfileScreen extends Component<Props> {
   
   render() {
     return (
-      <ScrollView style={{ flex: 1 }}>
+      <ScrollView>
         <View style={{
           paddingTop: 20,
-          width: '100%',
           borderBottomWidth: 0.5,
           borderBottomColor: "#E2E5E4",
         }}>
-        <View style={{marginLeft:115, width: 250, borderRadius:3, borderWidth: 1, borderColor:"#DBDBDB" }}>
-        <TouchableOpacity>
-        <Text style={{alignSelf:'center', margin: 5}}>Edit Profile</Text>
-        </TouchableOpacity>
-        </View>
           <View>
-            <View style={{ flexDirection:'row', alignItems:'center', top: -30, marginLeft: 20, }}>
+            <View style={{ flexDirection:'row', alignItems:'center', top: -20, marginLeft: 20, }}>
               <Icon name="md-contact" color='grey' size={100} />
               <View>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate("Settings")} style={{left:15, width: 250, borderRadius:3, borderWidth: 1, borderColor:"#DBDBDB" }}>
+              <Text style={{alignSelf:'center', margin: 5}}>Edit Profile</Text>
+              </TouchableOpacity>
               <Text style={{marginLeft: 15, marginTop: 10}}>Addie </Text>
               <Text style={{marginLeft: 15}}>"Put your saying in this box"</Text>
               </View>

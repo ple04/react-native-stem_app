@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { View, Image, Text, StyleSheet, FlatList } from 'react-native'
+import { View, Image, Text, StyleSheet, FlatList, TouchableOpacity, navigate } from 'react-native'
 import Video from 'react-native-video'
 import Icon from 'react-native-ionicons';
-import AvView from './util/AvView'
+import AvView from '../util/AvView';
 
 const data = [{
   key: 1,
@@ -90,8 +90,9 @@ export default class FeedScreen extends Component {
                 style={{ width: 36, height: 36, margin: 12, borderRadius: 18, borderWidth: StyleSheet.hairlineWidth, borderColor: 'lightgray' }}
                 source={{ uri: item.avatarUrl }}
               />
-              <Text style={{ fontWeight: 'bold', height: 60, lineHeight: 60, flex: 1 }}>{item.username}</Text>
-              <Icon name="md-more" size={30} color="#C5C7C6" style={{ lineHeight: 60, marginRight: 15 }} />
+              <TouchableOpacity onPress={() => this.props.navigation.navigate("FriendProfile")} style={{ fontWeight: 'bold', height: 60, lineHeight: 60, flex: 1 }}><Text style={{  top: 20, fontWeight: 'bold'}}>{item.username}</Text>
+              </TouchableOpacity>
+              <Icon name="md-more" size={30} color="#C5C7C6" style={{ alignSelf: 'flex-end', lineHeight: 60, marginRight: 15 }} />
             </View>
             <AvView type={item.type} source={item.source} />
             <View style={{ height: 54, backgroundColor: 'white', flexDirection: 'row' }}>
