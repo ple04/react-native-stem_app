@@ -14,6 +14,8 @@ import ProfileScreen from './screens/profile';
 import VideoScreen from './screens/video';
 import Icon from 'react-native-ionicons';
 import SplashScreen from 'react-native-splash-screen';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import phoneSize from "./screens/util/phoneSize"
 
 type Props = {};
 export default class App extends Component<Props> {
@@ -141,8 +143,8 @@ const styles = StyleSheet.create({
   stemlogo: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100%',
-    bottom: 5,
+    height: Platform.OS === 'ios' ? hp('5%') : hp('8%'),
     resizeMode: 'contain',
+    flex: 1
   },
 });
