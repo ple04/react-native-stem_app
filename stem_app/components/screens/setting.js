@@ -35,7 +35,7 @@ export default class Profile extends Component {
 
 const styles = StyleSheet.create({
   header:{
-    backgroundColor: "#00BFFF",
+    backgroundColor: "#EDEEEE",
     height:200,
   },
   avatar: {
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     marginBottom:20,
     width:250,
     borderRadius:30,
-    backgroundColor: "#00BFFF",
+    backgroundColor: "#3CC581",
   },
 });
  

@@ -3,20 +3,20 @@ import React, { Component } from 'react';
  import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 
-  export default class LoginScreen extends Component {
+  export default class SignupScreen extends Component {
 
       render() {
          return (<View style={{ backgroundColor: "#3CC581", width: '100%', height: '100%' }} >
              <Image source={require('../images/stem_logo.png')} style={styles.vmalogo} />
              <View style={styles.loginBox}>
                  <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                     <Text style={styles.textBox}>Email</Text>
-                     <TextInput style={styles.inputStyle} />
-                     <Text style={styles.textBox}>Password</Text>
-                     <TextInput secureTextEntry={true} style={styles.inputStyle} />
+                     <TextInput placeholder="Username" style={styles.inputStyle} />
+                     <TextInput placeholder="Full Name" style={styles.inputStyle} />
+                     <TextInput placeholder="E-mail" style={styles.inputStyle} />
+                     <TextInput placeholder="Password" secureTextEntry={true} style={styles.inputStyle} />
                      <View >
-                         <TouchableOpacity style={styles.loginButton} onPress={() => this.props.navigation.navigate('mainApp')} hitSlop={{ top: 50, bottom: 50, left: 100, right: 100 }}>
-                             <Text style={styles.loginText}>LOGIN</Text>
+                         <TouchableOpacity style={styles.loginButton} onPress={() => this.props.navigation.navigate('login')} hitSlop={{ top: 50, bottom: 50, left: 100, right: 100 }}>
+                             <Text style={styles.loginText}>Finish</Text>
                          </TouchableOpacity>
                      </View>
                  </View>
@@ -36,21 +36,22 @@ import React, { Component } from 'react';
 
       },
      inputStyle: {
-         borderWidth: 0.5,
+         borderBottomWidth: 0.5,
          borderColor: 'white',
          borderRadius: wp('1%'),
-         textAlign: 'center',
+         textAlign: 'left',
          width: wp('70%'),
          padding: wp('2%'),
          fontSize: hp('2%'),
-         margin: wp('3%')
+         margin: wp('3%'),
+         color: 'white'
      },
      vmalogo: {
-         height: Platform.OS === 'ios' ? hp('12%') : hp('12%'),
+         height: Platform.OS === 'ios' ? hp('7%') : hp('12%'),
          resizeMode: 'contain',
-         marginTop:  hp('25%'),
-         marginBottom: 10,
+         marginBottom: 40,
          alignSelf: 'center',
+         marginTop: 60,
 
       },
      loginBox: {
@@ -58,7 +59,6 @@ import React, { Component } from 'react';
          justifyContent: 'center',
          justifySelf: 'center',
          alignSelf: 'center',
-         bottom: hp('3%'),
          width: 300,
          height: 270,
      },
@@ -77,7 +77,7 @@ import React, { Component } from 'react';
          alignContent: 'center',
          justifyContent: 'center',
          borderRadius: wp('1%'),
-         marginTop: 10,
+         marginTop: 30,
      },
      loginText: {
          alignSelf: 'center',

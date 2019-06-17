@@ -22,7 +22,7 @@ export default class LoginScreen extends Component {
                 </View>
             </View>
             <View>
-                <TouchableOpacity style={styles.signup}>
+                <TouchableOpacity style={styles.signup} onPress={() => this.props.navigation.navigate("signup")}>
                     <Text style={styles.signupText}>
                         Sign up
                              </Text>
@@ -55,7 +55,7 @@ const styles = {
     vmalogo: {
         height: Platform.OS === 'ios' ? hp('12%') : hp('12%'),
         resizeMode: 'contain',
-        marginTop: hp('25%'),
+        marginTop: hp('15%'),
         marginBottom: 10,
         alignSelf: 'center',
 
@@ -84,7 +84,7 @@ const styles = {
         alignContent: 'center',
         justifyContent: 'center',
         borderRadius: wp('1%'),
-        marginTop: 10,
+        marginTop: 15,
     },
     loginText: {
         alignSelf: 'center',
@@ -95,7 +95,7 @@ const styles = {
     signup: {
         alignSelf: "center",
         position: 'absolute',
-        top: hp('20%'),
+        top: hp('18%'),
         backgroundColor: "rgba(255,255,255,0.3)",
         width: wp('110%'),
         height: wp('30%'),
