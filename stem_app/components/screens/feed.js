@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { View, Image, Text, StyleSheet, FlatList, TouchableOpacity, navigate } from 'react-native'
+import { View, Image, Text, StyleSheet, FlatList, TouchableOpacity, navigate, Modal, TouchableWithoutFeedback, TouchableHighlight } from 'react-native'
 import Video from 'react-native-video'
 import Icon from 'react-native-ionicons';
 import AvView from '../util/AvView';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const data = [{
   key: 1,
@@ -78,6 +79,18 @@ const data = [{
 }]
 
 export default class FeedScreen extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      sortModalVisible: false,
+    }
+  }
+
+  setModalVisible(sortModalVisible) {
+    this.setState({ sortModalVisible })
+  }
+
   render() {
     return (
       <FlatList
@@ -90,9 +103,11 @@ export default class FeedScreen extends Component {
                 style={{ width: 36, height: 36, margin: 12, borderRadius: 18, borderWidth: StyleSheet.hairlineWidth, borderColor: 'lightgray' }}
                 source={{ uri: item.avatarUrl }}
               />
-              <TouchableOpacity onPress={() => this.props.navigation.navigate("FriendProfile")} style={{ fontWeight: 'bold', height: 60, lineHeight: 60, flex: 1 }}><Text style={{  top: 20, fontWeight: 'bold'}}>{item.username}</Text>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate("FriendProfile")} style={{ fontWeight: 'bold', height: 60, lineHeight: 60, flex: 1 }}><Text style={{ top: 20, fontWeight: 'bold' }}>{item.username}</Text>
               </TouchableOpacity>
-              <Icon name="md-more" size={30} color="#C5C7C6" style={{ alignSelf: 'flex-end', lineHeight: 60, marginRight: 15 }} />
+              <TouchableOpacity onPress={() => this.setState({ sortModalVisible: true })} hitSlop={{ top: 10, bottom: 10, right: 10, left: 10 }}>
+                <Icon name="md-more" size={30} color="#C5C7C6" style={{ alignSelf: 'flex-end', lineHeight: 60, marginRight: 15 }} />
+              </TouchableOpacity>
             </View>
             <AvView type={item.type} source={item.source} />
             <View style={{ height: 54, backgroundColor: 'white', flexDirection: 'row' }}>
@@ -108,26 +123,123 @@ export default class FeedScreen extends Component {
                 <Text style={{ fontSize: 14, color: 'black' }}> {item.saying}</Text>
               </View>
               <View>
-              <Text style={{ fontSize: 12, color: 'gray', marginTop: 5 }}>{'X MINUTES AGO'}</Text>
+                <Text style={{ fontSize: 12, color: 'gray', marginTop: 5 }}>{'X MINUTES AGO'}</Text>
               </View>
             </View>
             <View style={{ marginTop: -15, marginBottom: 20, paddingLeft: 15 }}>
               <View style={{ flexDirection: 'row' }}>
-              <Icon name="ios-heart-empty" size={24} color="#C5C7C6" style={{ marginTop: 12, marginLeft: 40 }} />
-              <Icon name="ios-infinite" size={24} color="#C5C7C6" style={{ marginTop: 12, marginLeft: 100 }} />
-              <Icon name="md-create" size={24} color="#C5C7C6" style={{ marginTop: 12, marginLeft: 100 }} />  
+                <Icon name="ios-heart-empty" size={24} color="#C5C7C6" style={{ marginTop: 12, marginLeft: 40 }} />
+                <Icon name="ios-infinite" size={24} color="#C5C7C6" style={{ marginTop: 12, marginLeft: 100 }} />
+                <Icon name="md-create" size={24} color="#C5C7C6" style={{ marginTop: 12, marginLeft: 100 }} />
               </View>
             </View>
             <View style={{ marginTop: -15, marginBottom: 20, paddingLeft: 15 }}>
               <View style={{ flexDirection: 'row' }}>
-              <Text style={{ fontSize: 14, color: "#C5C7C6", fontWeight: '800',marginLeft: 37  }}>{item.likes}</Text>
-              <Text style={{ fontSize: 14, color: "#C5C7C6", fontWeight: '800',marginLeft: 100  }}>{item.loops}</Text>
-              <Text style={{ fontSize: 14, color: "#C5C7C6", fontWeight: '800',marginLeft: 100  }}>{item.comments}</Text>
+                <Text style={{ fontSize: 14, color: "#C5C7C6", fontWeight: '800', marginLeft: 37 }}>{item.likes}</Text>
+                <Text style={{ fontSize: 14, color: "#C5C7C6", fontWeight: '800', marginLeft: 100 }}>{item.loops}</Text>
+                <Text style={{ fontSize: 14, color: "#C5C7C6", fontWeight: '800', marginLeft: 100 }}>{item.comments}</Text>
               </View>
             </View>
+            <Modal
+              animationType="fade"
+              transparent={true}
+              visible={this.state.sortModalVisible}
+              onRequestClose={() => {
+                alert('Modal has been closed.');
+              }}>
+              <TouchableWithoutFeedback onPress={() => {
+                this.setModalVisible(!this.state.sortModalVisible);
+              }}>
+                <View
+                  style={{ flex: 1, backgroundColor: 'rgba(52, 52, 52, 0.8)', flexDirection: "column", justifyContent: "space-around", alignContent: "center" }}>
+                  <View style={{
+                    width: wp('95%'),
+                    flexDirection: "column",
+                    backgroundColor: 'rgb(248,249,250)',
+                    justifyContent: "space-around",
+                    margin: wp("20%"),
+                    borderWidth: 1,
+                    borderRadius: 5,
+                    borderColor: 'rgb(248,249,250)',
+                    position: 'absolute',
+                    bottom: 0,
+                    marginLeft: hp('1.2%'),
+
+                  }}>
+                    <View style={{ flexDirection: "row", backgroundColor: 'rgb(248,249,250)', justifyContent: "space-around" }}>
+                      <View style={{ alignItems: 'center', flexDirection: "column", backgroundColor: 'rgb(248,249,250)' }}>
+                        <TouchableHighlight onPress={() => {
+                          this.setState({ sortModalVisible: false })
+                        }}
+                          style={{ borderBottomColor: "#E7E8E9", borderBottomWidth: wp('.2%') }}>
+                          <Text style={styles.modalText}>Send Message</Text>
+                        </TouchableHighlight>
+                        <TouchableHighlight onPress={() => {
+                          this.setState({ sortModalVisible: false })
+                        }}
+                          style={{ borderBottomColor: "#E7E8E9", borderBottomWidth: wp('.2%') }}>
+                          <Text style={styles.modalText}>Unfollow</Text>
+                        </TouchableHighlight>
+                        <TouchableHighlight onPress={() => {
+                          this.setState({ sortModalVisible: false })
+                        }}
+                          style={{ borderBottomColor: "#E7E8E9", borderBottomWidth: wp('.2%') }}>
+                          <Text style={{
+                            fontSize: hp('2.5%'),
+                            color: "#4A90E2",
+                            fontWeight: '300',
+                            margin: 5,
+                            alignSelf: 'center',
+                            color: 'red',
+                          }}>Block</Text>
+                        </TouchableHighlight>
+                        <TouchableHighlight onPress={() => {
+                          this.setState({ sortModalVisible: false })
+                        }}
+                          style={{ borderBottomColor: "#E7E8E9", borderBottomWidth: wp('.2%') }}>
+                          <Text style={{
+                            fontSize: hp('2.5%'),
+                            color: "#4A90E2",
+                            fontWeight: '300',
+                            margin: 5,
+                            alignSelf: 'center',
+                            color: 'red',
+                          }}>Report</Text>
+                        </TouchableHighlight>
+                      </View>
+                    </View>
+                  </View>
+                  <TouchableHighlight onPress={() => {
+                    this.setState({ sortModalVisible: false })
+                  }}
+                    style={{
+                      alignSelf: 'center',
+                      width: wp('95%'),
+                      position: 'absolute',
+                      bottom: 30,
+                      borderWidth: 1,
+                      backgroundColor: 'white',
+                      borderRadius: 5,
+                      marginLeft: hp('10%'),
+                      borderColor: 'rgb(248,249,250)',
+                    }}>
+                    <Text style={styles.modalText}>Cancel</Text>
+                  </TouchableHighlight>
+                </View>
+              </TouchableWithoutFeedback>
+            </Modal>
           </View>
         )}
       />
     )
   }
 }
+const styles = StyleSheet.create({
+  modalText: {
+    fontSize: hp('2.5%'),
+    color: "#4A90E2",
+    fontWeight: '300',
+    margin: 5,
+    alignSelf: 'center',
+  }
+})

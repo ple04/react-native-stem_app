@@ -15,53 +15,62 @@ const data = [{
     key: 1,
     username: 'Addie',
     avatarUrl: 'https://unsplash.it/100?image=1005',
+    message: 'Hey',
     loops: '12',
 
 }, {
     key: 2,
     username: 'Shawn',
     avatarUrl: 'https://unsplash.it/100?image=1005',
+    message: 'Hey',
     loops: '12',
 }, {
     key: 3,
     username: 'Jon',
     avatarUrl: 'https://unsplash.it/100?image=1005',
+    message: 'Hey',
     loops: '12',
 }, {
     key: 4,
     username: 'Lu',
     avatarUrl: 'https://unsplash.it/100?image=1005',
+    message: 'Hey',
     loops: '12',
 }, {
     key: 5,
     username: 'Addie',
     avatarUrl: 'https://unsplash.it/100?image=1005',
+    message: 'Hey',
     loops: '12',
 }, {
     key: 6,
     username: 'Leddy',
     avatarUrl: 'https://unsplash.it/100?image=1005',
+    message: 'Hey',
     loops: '12',
 }, {
     key: 7,
     username: 'Eddie',
     avatarUrl: 'https://unsplash.it/100?image=1005',
+    message: 'Hey',
     loops: '12',
 }, {
     key: 8,
     username: 'Bob',
     avatarUrl: 'https://unsplash.it/100?image=1005',
+    message: 'Hey',
     loops: '12',
 }, {
     key: 9,
     username: 'Bran',
     avatarUrl: 'https://unsplash.it/100?image=1005',
+    message: 'Hey',
     loops: '12',
 },
 ]
 
 type Props = {};
-export default class ContactScreen extends Component<Props> {
+export default class MessageScreen extends Component<Props> {
 
 
     render() {
@@ -76,7 +85,10 @@ export default class ContactScreen extends Component<Props> {
                                 style={{ width: 36, height: 36, margin: 12, borderRadius: 18, borderWidth: StyleSheet.hairlineWidth, borderColor: 'lightgray' }}
                                 source={{ uri: item.avatarUrl }}
                             />
+                            <View style={{flexDirection: 'column'}}>
                             <Text style={{ fontSize: 14, color: 'black', fontWeight: '400' }}>{item.username}</Text>
+                            <Text style={{ fontSize: 14, color: 'black', fontWeight: '400' }}>{item.message}</Text>
+                            </View>
                             <View
                                 style={{
                                     alignSelf: 'center',
@@ -87,7 +99,7 @@ export default class ContactScreen extends Component<Props> {
                                     alignItems: 'flex-end',
                                     alignContent: 'flex-end',
                                 }}>
-                                <Icon name="ios-add-circle-outline" size={27} color="#C5C7C6" style={{ marginBottom: 6, marginRight: 20 }} />
+                                <Icon name="ios-checkmark" size={27} color="#C5C7C6" style={{ marginBottom: 6, marginRight: 20 }} />
                             </View>
                         </View>
                     )}

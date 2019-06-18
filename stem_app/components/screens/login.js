@@ -1,9 +1,60 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, navigation, Image } from 'react-native';
+import { Platform, StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, navigation, Image, ActivityIndicator } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-
+import Input from '../Firebase/input';
+import firebase from 'firebase';
 
 export default class LoginScreen extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = { email: '', password: '', error: '' };
+    }
+
+    onButtonPress() {
+        this.setState({ error: '', loading: true })
+        const { email, password } = this.state;
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(this.onLoginSuccess.bind(this))
+            .catch(() => {
+                firebase.auth().createUserWithEmailAndPassword(email, password)
+                    .then(this.onLoginSuccess.bind(this))
+                    .catch((error) => {
+                        let errorCode = error.code
+                        let errorMessage = error.message;
+                        if (errorCode == 'auth/weak-password') {
+                            this.onLoginFailure.bind(this)('Weak password!')
+                        } else {
+                            this.onLoginFailure.bind(this)(errorMessage)
+                        }
+                    });
+            });
+    }
+    onLoginSuccess() {
+        this.setState({
+            email: '', password: '', error: '', loading: false
+        })
+    }
+    onLoginFailure(errorMessage) {
+        this.setState({ error: errorMessage, loading: false })
+    }
+
+    renderButton() {
+        if (this.state.loading) {
+            return (
+                <View style={styles.spinnerStyle}>
+                    <ActivityIndicator size={"small"} />
+                </View>
+            )
+        } else {
+            return (
+                <TouchableOpacity style={styles.loginButton} onPress={this.onButtonPress.bind(this)} hitSlop={{ top: 50, bottom: 50, left: 100, right: 100 }}>
+                    <Text style={styles.loginText}>LOGIN</Text>
+                </TouchableOpacity>
+            )
+        }
+    }
+
 
     render() {
         return (<View style={{ backgroundColor: "#3CC581", width: '100%', height: '100%' }} >
@@ -11,14 +62,23 @@ export default class LoginScreen extends Component {
             <View style={styles.loginBox}>
                 <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                     <Text style={styles.textBox}>Email</Text>
-                    <TextInput style={styles.inputStyle} />
+                    <Input 
+                        style={styles.inputStyle}
+                        value={this.state.email}
+                        secureTextEntry={false}
+                        onChangeText={email => this.setState({ email })} />
                     <Text style={styles.textBox}>Password</Text>
-                    <TextInput secureTextEntry={true} style={styles.inputStyle} />
-                    <View >
-                        <TouchableOpacity style={styles.loginButton} onPress={() => this.props.navigation.navigate('mainApp')} hitSlop={{ top: 50, bottom: 50, left: 100, right: 100 }}>
-                            <Text style={styles.loginText}>LOGIN</Text>
-                        </TouchableOpacity>
-                    </View>
+                    <Input 
+                        style={styles.inputStyle}
+                        value={this.state.password}
+                        secureTextEntry={true}
+                        onChangeText={password => this.setState({ password })} />
+
+                    {this.renderButton()}
+
+                    <Text style={styles.errorTextStyle}>
+                        {this.state.error}
+                    </Text>
                 </View>
             </View>
             <View>
@@ -46,8 +106,8 @@ const styles = {
         borderWidth: 0.5,
         borderColor: 'white',
         borderRadius: wp('1%'),
-        textAlign: 'center',
-        width: wp('70%'),
+        textAlign: 'left',
+        width: wp('90%'),
         padding: wp('2%'),
         fontSize: hp('2%'),
         margin: wp('3%')

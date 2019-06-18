@@ -20,14 +20,58 @@ import SettingScreen from './components/screens/setting';
 import LoginScreen from './components/screens/login';
 import SignupScreen from './components/screens/signup';
 import ContactScreen from './components/screens/contact';
+import MessageScreen from './components/screens/message';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import firebase from 'firebase';
 
 type Props = {};
 export default class App extends Component<Props> {
 
+  state = { loggedIn: null };
+
   componentDidMount() {
-    SplashScreen.hide()
+    SplashScreen.hide();
+
+    let config = {
+      apiKey: "AIzaSyANanFaw3HkzRi2gfQGetEw7PZb38tetnk",
+      authDomain: "stemapp-d0db8.firebaseapp.com",
+      databaseURL: "https://stemapp-d0db8.firebaseio.com",
+      projectId: "stemapp-d0db8",
+      storageBucket: "stemapp-d0db8.appspot.com",
+      messagingSenderId: "203953989673",
+      appId: "1:203953989673:web:ed3015ec6f1dc8c1"
+    };
+    firebase.initializeApp(config);
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ loggedIn: true })
+      } else {
+        this.setState({ loggedIn: false })
+      }
+    })
   }
+
+  /* renderComponent() {
+    if (this.state.loggedIn) {
+      return (
+        <Button
+         title="Sign out"
+         onPress={() => firebase.auth().signOut()} 
+         />
+      );
+    }
+    return (
+      <LoginForm />
+    );
+  }
+  render() {
+    return (
+      <View>
+        <Header title='Authenticator' />
+        {this.renderComponent()}
+      </View>
+    );
+  } */
 
   render() {
     console.disableYellowBox = true;
@@ -56,17 +100,10 @@ const LoginStackNav = createStackNavigator({
         backgroundColor: '#3CC581',
         borderBottomWidth: 0,
       },
-    })
-  },
-  contact: {
-    screen: ContactScreen,
-    navigationOptions: ({ navigation }) => ({
-      headerTitle: (
-        <Image
-          style={styles.stemlogo}
-          source={require('./components/images/stem_logo.png')}
-        />
-      ),
+      headerLeft: (
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Icon name="ios-arrow-round-back" color='white' size={35} style={{ marginLeft: 25 }} />
+        </TouchableOpacity>),
       headerStyle: {
         backgroundColor: '#3CC581',
         borderBottomWidth: 0,
@@ -89,7 +126,10 @@ const FeedStackNav = createStackNavigator({
         <TouchableOpacity onPress={() => navigation.navigate("contact")}>
           <Icon name="md-person-add" color='white' size={30} style={{ marginLeft: 20 }} />
         </TouchableOpacity>),
-      headerRight: (<Icon name="md-paper-plane" color='white' size={30} style={{ marginRight: 20 }} />),
+      headerRight: (
+        <TouchableOpacity onPress={() => navigation.navigate("message")}>
+          <Icon name="md-paper-plane" color='white' size={30} style={{ marginRight: 20 }} />
+        </TouchableOpacity>),
       headerStyle: {
         backgroundColor: '#3CC581',
         borderBottomWidth: 0,
@@ -106,10 +146,56 @@ const FeedStackNav = createStackNavigator({
         />
       ),
       headerLeft: (
-      <TouchableOpacity onPress={() => this.props.navigation.navigate('contact')}>
-        <Icon name="md-person-add" color='white' size={30} style={{ marginLeft: 20 }} />
-      </TouchableOpacity>),
-      headerRight: (<Icon name="md-paper-plane" color='white' size={30} style={{ marginRight: 20 }} />),
+        <TouchableOpacity onPress={() => navigation.navigate("contact")}>
+          <Icon name="md-person-add" color='white' size={30} style={{ marginLeft: 20 }} />
+        </TouchableOpacity>),
+      headerRight: (
+        <TouchableOpacity onPress={() => navigation.navigate("message")}>
+          <Icon name="md-paper-plane" color='white' size={30} style={{ marginRight: 20 }} />
+        </TouchableOpacity>),
+      headerStyle: {
+        backgroundColor: '#3CC581',
+        borderBottomWidth: 0,
+      },
+    })
+  },
+
+  contact: {
+    screen: ContactScreen,
+    navigationOptions: ({ navigation }) => ({
+      headerTitle: (
+        <Image
+          style={styles.stemlogo}
+          source={require('./components/images/stem_logo.png')}
+        />
+      ),
+      headerLeft: (
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Icon name="ios-arrow-round-back" color='white' size={35} style={{ marginLeft: 20 }} />
+        </TouchableOpacity>),
+      headerStyle: {
+        backgroundColor: '#3CC581',
+        borderBottomWidth: 0,
+      },
+      headerRight: (
+        <TouchableOpacity onPress={() => navigation.navigate("message")}>
+          <Icon name="md-paper-plane" color='white' size={30} style={{ marginRight: 20 }} />
+        </TouchableOpacity>),
+    })
+  },
+  message: {
+    screen: MessageScreen,
+    navigationOptions: ({ navigation }) => ({
+      headerTitle: (
+        <Image
+          style={styles.stemlogo}
+          source={require('./components/images/stem_logo.png')}
+        />
+      ),
+      headerLeft: (
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Icon name="ios-arrow-round-back" color='white' size={35} style={{ marginLeft: 25 }} />
+        </TouchableOpacity>),
       headerStyle: {
         backgroundColor: '#3CC581',
         borderBottomWidth: 0,
@@ -141,8 +227,14 @@ const ProfileStackNav = createStackNavigator({
           source={require('./components/images/stem_logo.png')}
         />
       ),
-      headerLeft: (<Icon name="md-person-add" color='white' size={30} style={{ marginLeft: 20 }} />),
-      headerRight: (<Icon name="md-paper-plane" color='white' size={30} style={{ marginRight: 20 }} />),
+      headerLeft: (
+        <TouchableOpacity onPress={() => navigation.navigate("contact")}>
+          <Icon name="md-person-add" color='white' size={30} style={{ marginLeft: 20 }} />
+        </TouchableOpacity>),
+      headerRight: (
+        <TouchableOpacity onPress={() => navigation.navigate("message")}>
+          <Icon name="md-paper-plane" color='white' size={30} style={{ marginRight: 20 }} />
+        </TouchableOpacity>),
       headerStyle: {
         backgroundColor: '#3CC581',
         borderBottomWidth: 0,
@@ -158,12 +250,18 @@ const ProfileStackNav = createStackNavigator({
           source={require('./components/images/stem_logo.png')}
         />
       ),
-      headerLeft: (<Icon name="md-person-add" color='white' size={30} style={{ marginLeft: 20 }} />),
-      headerRight: (<Icon name="md-paper-plane" color='white' size={30} style={{ marginRight: 20 }} />),
+      headerLeft: (
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Icon name="ios-arrow-round-back" color='white' size={35} style={{ marginLeft: 20 }} />
+        </TouchableOpacity>),
       headerStyle: {
         backgroundColor: '#3CC581',
         borderBottomWidth: 0,
       },
+      headerRight: (
+        <TouchableOpacity onPress={() => navigation.navigate("message")}>
+          <Icon name="md-paper-plane" color='white' size={30} style={{ marginRight: 20 }} />
+        </TouchableOpacity>),
     })
   },
   initialRouteName: 'ProfileScreen',
