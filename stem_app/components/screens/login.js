@@ -3,58 +3,24 @@ import { Platform, StyleSheet, Text, View, ScrollView, TextInput, TouchableOpaci
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Input from '../Firebase/input';
 import firebase from 'firebase';
+import { DrawerActions, NavigationActions } from 'react-navigation';
+import FeedScreen from './feed';
 
 export default class LoginScreen extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { email: '', password: '', error: '' };
+        this.state = { email: '', password: '', errorMessage: null };
     }
 
-    onButtonPress() {
-        this.setState({ error: '', loading: true })
-        const { email, password } = this.state;
-        firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(this.onLoginSuccess.bind(this))
-            .catch(() => {
-                firebase.auth().createUserWithEmailAndPassword(email, password)
-                    .then(this.onLoginSuccess.bind(this))
-                    .catch((error) => {
-                        let errorCode = error.code
-                        let errorMessage = error.message;
-                        if (errorCode == 'auth/weak-password') {
-                            this.onLoginFailure.bind(this)('Weak password!')
-                        } else {
-                            this.onLoginFailure.bind(this)(errorMessage)
-                        }
-                    });
-            });
+    handleLogin = () => {
+        const { email, password } = this.state
+        firebase
+            .auth()
+            .signInWithEmailAndPassword(email, password)
+            .then(() => this.props.navigation.navigate('Feed'))
+            .catch(error => this.setState({ errorMessage: error.message }))
     }
-    onLoginSuccess() {
-        this.setState({
-            email: '', password: '', error: '', loading: false
-        })
-    }
-    onLoginFailure(errorMessage) {
-        this.setState({ error: errorMessage, loading: false })
-    }
-
-    renderButton() {
-        if (this.state.loading) {
-            return (
-                <View style={styles.spinnerStyle}>
-                    <ActivityIndicator size={"small"} />
-                </View>
-            )
-        } else {
-            return (
-                <TouchableOpacity style={styles.loginButton} onPress={this.onButtonPress.bind(this)} hitSlop={{ top: 50, bottom: 50, left: 100, right: 100 }}>
-                    <Text style={styles.loginText}>LOGIN</Text>
-                </TouchableOpacity>
-            )
-        }
-    }
-
 
     render() {
         return (<View style={{ backgroundColor: "#3CC581", width: '100%', height: '100%' }} >
@@ -62,22 +28,28 @@ export default class LoginScreen extends Component {
             <View style={styles.loginBox}>
                 <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                     <Text style={styles.textBox}>Email</Text>
-                    <Input 
+                    <Input
                         style={styles.inputStyle}
-                        value={this.state.email}
-                        secureTextEntry={false}
-                        onChangeText={email => this.setState({ email })} />
+                        autoCapitalize="none"
+                        onChangeText={email => this.setState({ email })}
+                        value={this.state.email} />
                     <Text style={styles.textBox}>Password</Text>
-                    <Input 
-                        style={styles.inputStyle}
-                        value={this.state.password}
+                    <Input
                         secureTextEntry={true}
-                        onChangeText={password => this.setState({ password })} />
+                        style={styles.inputStyle}
+                        autoCapitalize="none"
+                        onChangeText={password => this.setState({ password })}
+                        value={this.state.password}
+                    />
 
-                    {this.renderButton()}
+                    <TouchableOpacity style={styles.loginButton} onPress={this.handleLogin}>
+                        <Text style={styles.loginText}>
+                            LOGIN
+                             </Text>
+                    </TouchableOpacity>
 
                     <Text style={styles.errorTextStyle}>
-                        {this.state.error}
+                        {this.state.errorMessage}
                     </Text>
                 </View>
             </View>

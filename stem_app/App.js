@@ -51,27 +51,7 @@ export default class App extends Component<Props> {
     })
   }
 
-  /* renderComponent() {
-    if (this.state.loggedIn) {
-      return (
-        <Button
-         title="Sign out"
-         onPress={() => firebase.auth().signOut()} 
-         />
-      );
-    }
-    return (
-      <LoginForm />
-    );
-  }
-  render() {
-    return (
-      <View>
-        <Header title='Authenticator' />
-        {this.renderComponent()}
-      </View>
-    );
-  } */
+
 
   render() {
     console.disableYellowBox = true;

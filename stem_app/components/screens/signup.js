@@ -1,21 +1,41 @@
 import React, { Component } from 'react';
- import { Platform, StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, navigation, Image } from 'react-native';
+ import { Platform, StyleSheet, Text, View, Input, TextInput, TouchableOpacity, navigation, Image } from 'react-native';
  import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+ import * as firebase from "firebase";
+
 
 
   export default class SignupScreen extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+          email: "",
+          password: "",
+          errorMessage: "",
+        };
+      }
+      SignUp = (email, password) => {
+        try {
+          firebase
+              .auth()
+              .createUserWithEmailAndPassword(email, password)
+              .then(user => { 
+                     console.log(user);
+               });
+    } catch (error) {
+          console.log(error.toString(error));
+        }
+      };
 
       render() {
          return (<View style={{ backgroundColor: "#3CC581", width: '100%', height: '100%' }} >
              <Image source={require('../images/stem_logo.png')} style={styles.vmalogo} />
              <View style={styles.loginBox}>
                  <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                     <TextInput placeholder="Username" style={styles.inputStyle} />
-                     <TextInput placeholder="Full Name" style={styles.inputStyle} />
-                     <TextInput placeholder="E-mail" style={styles.inputStyle} />
-                     <TextInput placeholder="Password" secureTextEntry={true} style={styles.inputStyle} />
+                     <TextInput placeholder="E-mail" style={styles.inputStyle} onChangeText={email => this.setState({ email })}/>
+                     <TextInput placeholder="Password" secureTextEntry={true} style={styles.inputStyle} onChangeText={password => this.setState({ password })}/>
                      <View >
-                         <TouchableOpacity style={styles.loginButton} onPress={() => this.props.navigation.navigate('login')} hitSlop={{ top: 50, bottom: 50, left: 100, right: 100 }}>
+                         <TouchableOpacity style={styles.loginButton} onPress={() => {this.props.navigation.navigate("login"); this.SignUp(this.state.email, this.state.password)}} hitSlop={{ top: 50, bottom: 50, left: 100, right: 100 }}>
                              <Text style={styles.loginText}>Finish</Text>
                          </TouchableOpacity>
                      </View>

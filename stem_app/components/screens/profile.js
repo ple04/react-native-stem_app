@@ -10,6 +10,7 @@ import React, { Component } from 'react';
 import { FlatList, Image, Platform, StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-ionicons';
 import AvView from '../util/AvView';
+import firebase from 'firebase';
 
 const data = [{
   key: 1,
@@ -46,9 +47,16 @@ const data = [{
 
 type Props = {};
 export default class ProfileScreen extends Component<Props> {
+  state = { currentUser: null }
 
-  
+  componentDidMount() {
+    const { currentUser } = firebase.auth()
+
+    this.setState({ currentUser })
+  }
+
   render() {
+    const { currentUser } = this.state
     return (
       <ScrollView>
         <View style={{
@@ -63,7 +71,7 @@ export default class ProfileScreen extends Component<Props> {
               <TouchableOpacity onPress={() => this.props.navigation.navigate("Settings")} style={{left:15, width: 250, borderRadius:3, borderWidth: 1, borderColor:"#DBDBDB" }}>
               <Text style={{alignSelf:'center', margin: 5}}>Edit Profile</Text>
               </TouchableOpacity>
-              <Text style={{marginLeft: 15, marginTop: 10}}>Addie </Text>
+              <Text style={{marginLeft: 15, marginTop: 10}}>{currentUser.email}</Text>
               <Text style={{marginLeft: 15}}>"Put your saying in this box"</Text>
               </View>
             </View>
