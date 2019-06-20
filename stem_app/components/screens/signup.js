@@ -19,8 +19,7 @@ import React, { Component } from 'react';
           firebase
               .auth()
               .createUserWithEmailAndPassword(email, password)
-              .then(user => { 
-                     console.log(user);
+              .then(user => { console.log(user);
                });
     } catch (error) {
           console.log(error.toString(error));

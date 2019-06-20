@@ -71,7 +71,7 @@ export default class ProfileScreen extends Component<Props> {
               <TouchableOpacity onPress={() => this.props.navigation.navigate("Settings")} style={{left:15, width: 250, borderRadius:3, borderWidth: 1, borderColor:"#DBDBDB" }}>
               <Text style={{alignSelf:'center', margin: 5}}>Edit Profile</Text>
               </TouchableOpacity>
-              <Text style={{marginLeft: 15, marginTop: 10}}>{currentUser.email}</Text>
+              <Text style={{marginLeft: 17, marginTop: 10}}>{currentUser && currentUser.email}</Text>
               <Text style={{marginLeft: 15}}>"Put your saying in this box"</Text>
               </View>
             </View>
@@ -97,7 +97,7 @@ export default class ProfileScreen extends Component<Props> {
                 style={{ width: 36, height: 36, margin: 12, borderRadius: 18, borderWidth: StyleSheet.hairlineWidth, borderColor: 'lightgray' }}
                 source={{ uri: item.avatarUrl }}
               />
-              <TouchableOpacity onPress={() => this.props.navigation.navigate("FriendProfile")} style={{ fontWeight: 'bold', height: 60, lineHeight: 60, flex: 1 }}><Text style={{  top: 20, fontWeight: 'bold'}}>{item.username}</Text>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate("FriendProfile")} style={{ fontWeight: 'bold', height: 60, lineHeight: 60, flex: 1 }}><Text style={{  top: 20, fontWeight: 'bold'}}>{currentUser && currentUser.email}</Text>
               </TouchableOpacity>
               <Icon name="md-more" size={30} color="#C5C7C6" style={{ alignSelf: 'flex-end', lineHeight: 60, marginRight: 15 }} />
             </View>
@@ -111,7 +111,7 @@ export default class ProfileScreen extends Component<Props> {
             </View>
             <View style={{ marginTop: -40, marginBottom: 20, paddingLeft: 15 }}>
               <View style={{ flexDirection: 'row' }}>
-                <Text style={{ fontSize: 14, color: 'black', fontWeight: '800' }}>{item.username}</Text>
+                <Text style={{ fontSize: 14, color: 'black', fontWeight: '800' }}>{currentUser && currentUser.email}</Text>
                 <Text style={{ fontSize: 14, color: 'black' }}> {item.saying}</Text>
               </View>
               <View>

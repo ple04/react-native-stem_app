@@ -1,26 +1,52 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, navigation, Image, ActivityIndicator } from 'react-native';
+import { Platform, StyleSheet, Text, View, ScrollView, AsyncStorage, TouchableOpacity, navigation, Image, ActivityIndicator } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Input from '../Firebase/input';
-import firebase from 'firebase';
+import * as firebase from 'firebase';
 import { DrawerActions, NavigationActions } from 'react-navigation';
-import FeedScreen from './feed';
+import Firebase from '../Firebase/firebase';
 
 export default class LoginScreen extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { email: '', password: '', errorMessage: null };
+        this.state = { email: '', password: '', errorMessage: null, userData: {} };
     }
+
+    componentDidMount() {
+        this.getToken();
+     }
+     
 
     handleLogin = () => {
         const { email, password } = this.state
         firebase
             .auth()
             .signInWithEmailAndPassword(email, password)
-            .then(() => this.props.navigation.navigate('Feed'))
+            .then(res => {
+                this.storeToken(JSON.stringify(res.user));
+              })
+            .then(() => this.props.navigation.navigate('mainApp'))
             .catch(error => this.setState({ errorMessage: error.message }))
+            
     }
+
+    async storeToken(user) {
+        try {
+           await AsyncStorage.setItem("userData", JSON.stringify(user));
+        } catch (error) {
+          console.log("Something went wrong", error);
+        }
+      }
+      async getToken(user) {
+        try {
+          let userData = await AsyncStorage.getItem("userData");
+          let data = JSON.parse(userData);
+          console.log(data);
+        } catch (error) {
+          console.log("Something went wrong", error);
+        }
+      }
 
     render() {
         return (<View style={{ backgroundColor: "#3CC581", width: '100%', height: '100%' }} >

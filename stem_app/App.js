@@ -22,7 +22,7 @@ import SignupScreen from './components/screens/signup';
 import ContactScreen from './components/screens/contact';
 import MessageScreen from './components/screens/message';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import firebase from 'firebase';
+import * as firebase from 'firebase';
 
 type Props = {};
 export default class App extends Component<Props> {
@@ -42,16 +42,7 @@ export default class App extends Component<Props> {
       appId: "1:203953989673:web:ed3015ec6f1dc8c1"
     };
     firebase.initializeApp(config);
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({ loggedIn: true })
-      } else {
-        this.setState({ loggedIn: false })
-      }
-    })
   }
-
-
 
   render() {
     console.disableYellowBox = true;
