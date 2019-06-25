@@ -4,7 +4,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import Input from '../Firebase/input';
 import * as firebase from 'firebase';
 import { DrawerActions, NavigationActions } from 'react-navigation';
-import Firebase from '../Firebase/firebase';
+import Firebase from '../Firebase/firebase'
 
 export default class LoginScreen extends Component {
 
@@ -23,9 +23,6 @@ export default class LoginScreen extends Component {
         firebase
             .auth()
             .signInWithEmailAndPassword(email, password)
-            .then(res => {
-                this.storeToken(JSON.stringify(res.user));
-              })
             .then(() => this.props.navigation.navigate('mainApp'))
             .catch(error => this.setState({ errorMessage: error.message }))
             

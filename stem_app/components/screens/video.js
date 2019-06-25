@@ -1,66 +1,360 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, Alert } from 'react-native';
-import {CameraKitCameraScreen} from 'react-native-camera-kit';
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  View,Dimensions,Image,TouchableOpacity,TouchableHighlight, Slider
+} from 'react-native';
+import { RNCamera } from 'react-native-camera';
+import Icon from 'react-native-ionicons';
 
+const landmarkSize = 2;
 
-type Props = {};
-export default class VideoScreen extends Component<Props> {
+const flashModeOrder = {
+  off: 'on',
+  on: 'auto',
+  auto: 'torch',
+  torch: 'off',
+};
 
-  onBottomButtonPressed(event) {
-    const captureImages = JSON.stringify(event.captureImages);
-    Alert.alert(
-      `${event.type} button pressed`,
-      `${captureImages}`,
-      [
-        { text: 'OK', onPress: () => console.log('OK Pressed') },
-      ],
-      { cancelable: false }
-    )
+const wbOrder = {
+  auto: 'sunny',
+  sunny: 'cloudy',
+  cloudy: 'shadow',
+  shadow: 'fluorescent',
+  fluorescent: 'incandescent',
+  incandescent: 'auto',
+};
+
+export default class VideoScreen extends Component {
+  state = {
+    flash: 'off',
+    zoom: 0,
+    autoFocus: 'on',
+    depth: 0,
+    type: 'back',
+    whiteBalance: 'auto',
+    ratio: '16:9',
+    ratios: [],
+    photoId: 1,
+    showGallery: false,
+    photos: [],
+    faces: [],
+  };
+
+  getRatios = async function() {
+    const ratios = await this.camera.getSupportedRatios();
+    return ratios;
+  };
+
+  toggleView() {
+    this.setState({
+      showGallery: !this.state.showGallery,
+    });
+  }
+
+  toggleFacing() {
+    this.setState({
+      type: this.state.type === 'back' ? 'front' : 'back',
+    });
+  }
+
+  toggleFlash() {
+    this.setState({
+      flash: flashModeOrder[this.state.flash],
+    });
+  }
+
+  setRatio(ratio) {
+    this.setState({
+      ratio,
+    });
+  }
+
+  toggleWB() {
+    this.setState({
+      whiteBalance: wbOrder[this.state.whiteBalance],
+    });
+  }
+
+  toggleFocus() {
+    this.setState({
+      autoFocus: this.state.autoFocus === 'on' ? 'off' : 'on',
+    });
+  }
+
+  zoomOut() {
+    this.setState({
+      zoom: this.state.zoom - 0.1 < 0 ? 0 : this.state.zoom - 0.1,
+    });
+  }
+
+  zoomIn() {
+    this.setState({
+      zoom: this.state.zoom + 0.1 > 1 ? 1 : this.state.zoom + 0.1,
+    });
+  }
+
+  setFocusDepth(depth) {
+    this.setState({
+      depth,
+    });
+  }
+
+  takePicture = async function() {
+    if (this.camera) {
+      this.camera.takePictureAsync().then(data => {
+        console.log('data: ', data);
+      });
+    }
+  };
+
+  onFacesDetected = ({ faces }) => this.setState({ faces });
+  onFaceDetectionError = state => console.warn('Faces detection error:', state);
+
+  renderFace({ bounds, faceID, rollAngle, yawAngle }) {
+    return (
+      <View
+        key={faceID}
+        transform={[
+          { perspective: 600 },
+          { rotateZ: `${rollAngle.toFixed(0)}deg` },
+          { rotateY: `${yawAngle.toFixed(0)}deg` },
+        ]}
+        style={[
+          styles.face,
+          {
+            ...bounds.size,
+            left: bounds.origin.x,
+            top: bounds.origin.y,
+          },
+        ]}
+      >
+        <Text style={styles.faceText}>ID: {faceID}</Text>
+        <Text style={styles.faceText}>rollAngle: {rollAngle.toFixed(0)}</Text>
+        <Text style={styles.faceText}>yawAngle: {yawAngle.toFixed(0)}</Text>
+      </View>
+    );
+  }
+
+  renderLandmarksOfFace(face) {
+    const renderLandmark = position =>
+      position && (
+        <View
+          style={[
+            styles.landmark,
+            {
+              left: position.x - landmarkSize / 2,
+              top: position.y - landmarkSize / 2,
+            },
+          ]}
+        />
+      );
+    return (
+      <View key={`landmarks-${face.faceID}`}>
+        {renderLandmark(face.leftEyePosition)}
+        {renderLandmark(face.rightEyePosition)}
+        {renderLandmark(face.leftEarPosition)}
+        {renderLandmark(face.rightEarPosition)}
+        {renderLandmark(face.leftCheekPosition)}
+        {renderLandmark(face.rightCheekPosition)}
+        {renderLandmark(face.leftMouthPosition)}
+        {renderLandmark(face.mouthPosition)}
+        {renderLandmark(face.rightMouthPosition)}
+        {renderLandmark(face.noseBasePosition)}
+        {renderLandmark(face.bottomMouthPosition)}
+      </View>
+    );
+  }
+
+  renderFaces() {
+    return (
+      <View style={styles.facesContainer} pointerEvents="none">
+        {this.state.faces.map(this.renderFace)}
+      </View>
+    );
+  }
+
+  renderLandmarks() {
+    return (
+      <View style={styles.facesContainer} pointerEvents="none">
+        {this.state.faces.map(this.renderLandmarksOfFace)}
+      </View>
+    );
+  }
+
+  renderCamera() {
+    return (
+      <RNCamera
+        ref={ref => {
+          this.camera = ref;
+        }}
+        style={{
+          flex: 1,
+        }}
+        type={this.state.type}
+        flashMode={this.state.flash}
+        autoFocus={this.state.autoFocus}
+        zoom={this.state.zoom}
+        whiteBalance={this.state.whiteBalance}
+        ratio={this.state.ratio}
+        onFacesDetected={this.onFacesDetected}
+        onFaceDetectionError={this.onFaceDetectionError}
+        focusDepth={this.state.depth}
+      >
+        <View
+          style={{
+            flex: 0.5,
+            backgroundColor: 'transparent',
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+          }}
+        >
+          <TouchableOpacity style={styles.flipButton} onPress={this.toggleFacing.bind(this)}>
+          <Icon name="ios-reverse-camera" color='grey' size={35} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.flipButton} onPress={this.toggleFlash.bind(this)}>
+          <Icon name="ios-flash" color='grey' size={30} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.flipButton} onPress={this.toggleWB.bind(this)}>
+          <Icon name="ios-eye" color='grey' size={30} />
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            flex: 0.4,
+            backgroundColor: 'transparent',
+            flexDirection: 'row',
+            alignSelf: 'center',
+          }}
+        >
+          <TouchableOpacity
+            style={[styles.flipButton, {flex: 0.3, alignSelf: 'flex-end' }]}
+            onPress={this.takePicture.bind(this)}
+          >
+            <Icon name="ios-radio-button-on" color='white' size={60} style={{marginBottom:-25}}/>
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            flex: 0.1,
+            backgroundColor: 'transparent',
+            flexDirection: 'row',
+            alignSelf: 'flex-end',
+          }}
+        >
+          <TouchableOpacity
+            style={[styles.flipButton, {marginRight:15, marginLeft: 1, flex: 0.1, alignSelf: 'center' }]}
+            onPress={this.zoomIn.bind(this)}
+          >
+            <Icon name="ios-add-circle" color='grey' size={30} style={{marginRight: -5}} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.flipButton, {flex: 0.1, alignSelf: 'center' }]}
+            onPress={this.zoomOut.bind(this)}
+          >
+            <Icon name="ios-remove-circle" color='grey' size={30} style={{marginRight: -5}}/>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.flipButton, { flex: .75, alignSelf: 'center' }]}
+            onPress={this.toggleFocus.bind(this)}
+          >
+            <Text style={styles.flipText}> Auto-focus : {this.state.autoFocus} </Text>
+          </TouchableOpacity>
+          <Slider
+            style={{ width: 100, marginRight: 10, top: -7, alignSelf: 'flex-end' }}
+            onValueChange={this.setFocusDepth.bind(this)}
+            step={0.1}
+            disabled={this.state.autoFocus === 'on'}
+          />
+{/*           <TouchableOpacity
+            style={[styles.flipButton, styles.galleryButton, { flex: 0.25, alignSelf: 'flex-end' }]}
+            onPress={this.toggleView.bind(this)}
+          >
+            <Text style={styles.flipText}> Gallery </Text>
+          </TouchableOpacity> */}
+        </View>
+        {this.renderFaces()}
+        {this.renderLandmarks()}
+      </RNCamera>
+    );
   }
 
   render() {
-    return (
-      <CameraKitCameraScreen
-      style={{
-        flex: 1,
-        backgroundColor: 'white'}}
-      actions={{ rightButtonText: 'Done', leftButtonText: 'Cancel' }}
-      onBottomButtonPressed={(event) => this.onBottomButtonPressed(event)}
-      flashImages={{
-        on: require('../images/flashOn.png'),
-        off: require('../images/flashOff.png'),
-        auto: require('../images/flashAuto.png')
-      }}
-      cameraFlipImage={require('../images/cameraFlipIcon.png')}
-      captureButtonImage={require('../images/cameraButton.png')}
-    />
-    );
+    return <View style={styles.container}>{this.renderCamera()}</View>;
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    paddingTop: 10,
+    backgroundColor: '#000',
   },
-  welcome: {
-    fontSize: 20,
+  navigation: {
+    flex: 1,
+  },
+  gallery: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  flipButton: {
+    flex: 0.5,
+    height: 40,
+    marginHorizontal: 5,
+    marginBottom: 10,
+    marginTop: 25,
+    padding: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  flipText: {
+    color: 'white',
+    fontSize: 15,
+  },
+  item: {
+    margin: 4,
+    backgroundColor: 'indianred',
+    height: 35,
+    width: 80,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  galleryButton: {
+    backgroundColor: 'indianred',
+  },
+  facesContainer: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    left: 0,
+    top: 0,
+  },
+  face: {
+    padding: 10,
+    borderWidth: 2,
+    borderRadius: 2,
+    position: 'absolute',
+    borderColor: '#FFD700',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  landmark: {
+    width: landmarkSize,
+    height: landmarkSize,
+    position: 'absolute',
+    backgroundColor: 'red',
+  },
+  faceText: {
+    color: '#FFD700',
+    fontWeight: 'bold',
     textAlign: 'center',
     margin: 10,
+    backgroundColor: 'transparent',
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  row: {
+    flexDirection: 'row',
   },
 });

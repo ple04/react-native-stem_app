@@ -38,6 +38,7 @@
 		2DCD954D1E0B4F2C00145EB5 /* stem_appTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* stem_appTests.m */; };
 		2DF0FFEE2056DD460020B375 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		7E02ADA322B1749300F87B17 /* libReactNativeCameraKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E02ADA222B1748900F87B17 /* libReactNativeCameraKit.a */; };
+		7E2E09E522C25F820027E7E5 /* libRNCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E02AD9022B1699300F87B17 /* libRNCamera.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		936D27497D004C73B2EE0B25 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A4056C7D4E344A41BB6BB649 /* Ionicons.ttf */; };
 		ABA16E54C86344BC8CDBC4DE /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42B7F7A703854F6CA2DF38A7 /* libRNGestureHandler.a */; };
@@ -462,6 +463,7 @@
 				ABA16E54C86344BC8CDBC4DE /* libRNGestureHandler.a in Frameworks */,
 				D474711BB0384638B0990D55 /* libRCTVideo.a in Frameworks */,
 				DE411E2A1FB9408AA9CBFBEF /* libSplashScreen.a in Frameworks */,
+				7E2E09E522C25F820027E7E5 /* libRNCamera.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1522,6 +1524,8 @@
 					"$(SRCROOT)/../node_modules/react-native-video/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
+					"$(SRCROOT)/../../react-native/React/**",
+					"$(SRCROOT)/../../../React/**",
 				);
 				INFOPLIST_FILE = stem_app/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1550,6 +1554,8 @@
 					"$(SRCROOT)/../node_modules/react-native-video/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
+					"$(SRCROOT)/../../react-native/React/**",
+					"$(SRCROOT)/../../../React/**",
 				);
 				INFOPLIST_FILE = stem_app/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
